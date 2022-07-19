@@ -1,0 +1,22 @@
+version: '3.0'
+services:
+  postgres:
+    image: postgres
+    container_name: postgres-localhost-fanyacode
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=fanyacode
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  fanyacode:
+    image: fanyacode
+    container_name: fanyacode
+    build: ./
+    platform: linux/amd64
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
