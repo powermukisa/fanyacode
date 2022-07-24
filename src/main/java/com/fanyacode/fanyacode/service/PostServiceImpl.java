@@ -17,28 +17,28 @@ public class PostServiceImpl implements PostService {
   PostRepository postRepository;
 
   @Override
-  public List<Post> fetchAllTransactions(Integer userId, Integer categoryId) {
+  public List<Post> fetchAllPosts(Integer userId, Integer categoryId) {
     return postRepository.findAll(userId, categoryId);
   }
 
   @Override
-  public Post fetchTransactionById(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException {
-    return postRepository.findById(userId, categoryId, transactionId);
+  public Post fetchPostById(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException {
+    return postRepository.findById(userId, categoryId, postId);
   }
 
   @Override
-  public Post addTransaction(Integer userId, Integer categoryId, Double amount, String note, Long transactionDate) throws BadRequestException {
-    int transactionId = postRepository.create(userId, categoryId, amount, note, transactionDate);
-    return postRepository.findById(userId, categoryId, transactionId);
+  public Post addPost(Integer userId, Integer categoryId, Double amount, String note, Long postDate) throws BadRequestException {
+    int postId = postRepository.create(userId, categoryId, amount, note, postDate);
+    return postRepository.findById(userId, categoryId, postId);
   }
 
   @Override
-  public void updateTransaction(Integer userId, Integer categoryId, Integer transactionId, Post transaction) throws BadRequestException {
-    postRepository.update(userId, categoryId, transactionId, transaction);
+  public void updatePost(Integer userId, Integer categoryId, Integer postId, Post post) throws BadRequestException {
+    postRepository.update(userId, categoryId, postId, post);
   }
 
   @Override
-  public void removeTransaction(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException {
-    postRepository.removeById(userId, categoryId, transactionId);
+  public void removePost(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException {
+    postRepository.removeById(userId, categoryId, postId);
   }
 }

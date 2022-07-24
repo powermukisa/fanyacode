@@ -7,14 +7,14 @@ import java.util.List;
 
 public interface PostService {
 
-  List<Post> fetchAllTransactions(Integer userId, Integer categoryId);
+  List<Post> fetchAllPosts(Integer userId, Integer categoryId);
 
-  Post fetchTransactionById(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException;
+  Post fetchPostById(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException;
 
-  Post addTransaction(Integer userId, Integer categoryId, Double amount, String note, Long transactionDate) throws BadRequestException;
+  Post addPost(Integer userId, Integer categoryId, Double amount, String note, Long postDate) throws BadRequestException;
 
-  void updateTransaction(Integer userId, Integer categoryId, Integer transactionId, Post transaction) throws BadRequestException;
+  void updatePost(Integer userId, Integer categoryId, Integer postId, Post post) throws BadRequestException;
 
-  void removeTransaction(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException;
+  void removePost(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException;
 
 }

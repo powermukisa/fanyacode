@@ -15,6 +15,6 @@ public interface CategoryService {
 
   void updateCategory(Integer userId, Integer categoryId, Category category) throws BadRequestException;
 
-  void removeCategoryWithAllTransactions(Integer userId, Integer categoryId) throws ResourceNotFoundException;
+  void removeCategoryWithAllPosts(Integer userId, Integer categoryId) throws ResourceNotFoundException;
 
 }

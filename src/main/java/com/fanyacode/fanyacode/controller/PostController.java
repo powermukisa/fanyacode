@@ -15,58 +15,62 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/api/categories/{categoryId}/posts")
 public class PostController {
   @Autowired
   PostService postService;
 
   @GetMapping("")
-  public ResponseEntity<List<Post>> getAllTransactions(HttpServletRequest request,
+  public ResponseEntity<List<Post>> getAllPosts(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId) {
     int userId = (Integer) request.getAttribute("userId");
-    List<Post> transactions = postService.fetchAllTransactions(userId, categoryId);
-    return new ResponseEntity<>(transactions, HttpStatus.OK);
+    List<Post> posts = postService.fetchAllPosts(userId, categoryId);
+    return new ResponseEntity<>(posts, HttpStatus.OK);
   }
 
-  @GetMapping("/{transactionId}")
-  public ResponseEntity<Post> getTransactionById(HttpServletRequest request,
+  @GetMapping("/{postId}")
+  public ResponseEntity<Post> getPostById(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId,
-      @PathVariable("transactionId") Integer transactionId) {
+      @PathVariable("postId") Integer postId) {
     int userId = (Integer) request.getAttribute("userId");
-    Post post = postService.fetchTransactionById(userId, categoryId, transactionId);
+    Post post = postService.fetchPostById(userId, categoryId, postId);
     return new ResponseEntity<>(post, HttpStatus.OK);
   }
 
   @PostMapping("")
-  public ResponseEntity<Post> addTransaction(HttpServletRequest request,
+  public ResponseEntity<Post> addPost(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId,
-      @RequestBody Map<String, Object> transactionMap) {
+      @RequestBody Map<String, Object> postMap) {
     int userId = (Integer) request.getAttribute("userId");
-    Double amount = Double.valueOf(transactionMap.get("amount").toString());
-    String note = (String) transactionMap.get("note");
-    Long transactionDate = (Long) transactionMap.get("transactionDate");
-    Post post = postService.addTransaction(userId, categoryId, amount, note, transactionDate);
+    Double amount = Double.valueOf(postMap.get("amount").toString());
+    String note = (String) postMap.get("note");
+    Long postDate = (Long) postMap.get("postDate");
+    Post post = postService.addPost(userId, categoryId, amount, note, postDate);
     return new ResponseEntity<>(post, HttpStatus.CREATED);
   }
 
-  @PutMapping("/{transactionId}")
-  public ResponseEntity<Map<String, Boolean>> updateTransaction(HttpServletRequest request,
+  @PutMapping("/{postId}")
+  public ResponseEntity<Map<String, Boolean>> updatePost(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId,
-      @PathVariable("transactionId") Integer transactionId,
+      @PathVariable("postId") Integer postId,
       @RequestBody Post post) {
     int userId = (Integer) request.getAttribute("userId");
-    postService.updateTransaction(userId, categoryId, transactionId, post);
+    postService.updatePost(userId, categoryId, postId, post);
     Map<String, Boolean> map = new HashMap<>();
     map.put("success", true);
     return new ResponseEntity<>(map, HttpStatus.OK);
   }
 
-  @DeleteMapping("/{transactionId}")
-  public ResponseEntity<Map<String, Boolean>> deleteTransaction(HttpServletRequest request,
+  @DeleteMapping("/{postId}")
+  public ResponseEntity<Map<String, Boolean>> deletePost(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId,
-      @PathVariable("transactionId") Integer transactionId) {
+      @PathVariable("postId") Integer postId) {
     int userId = (Integer) request.getAttribute("userId");
-    postService.removeTransaction(userId, categoryId, transactionId);
+    postService.removePost(userId, categoryId, postId);
     Map<String, Boolean> map = new HashMap<>();
     map.put("success", true);
     return new ResponseEntity<>(map, HttpStatus.OK);

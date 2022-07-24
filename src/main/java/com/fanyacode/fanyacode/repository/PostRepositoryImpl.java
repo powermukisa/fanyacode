@@ -1,16 +1,12 @@
 package com.fanyacode.fanyacode.repository;
 
-import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.exception.BadRequestException;
 import com.fanyacode.fanyacode.exception.ResourceNotFoundException;
 import com.fanyacode.fanyacode.model.Post;
-import com.fanyacode.fanyacode.model.User;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -21,7 +17,7 @@ import org.springframework.stereotype.Repository;
 public class PostRepositoryImpl implements PostRepository{
   private static final String SQL_FIND_ALL = "SELECT POST_ID, CATEGORY_ID, USER_ID, AMOUNT, NOTE, POST_DATE FROM POSTS WHERE USER_ID = ? AND CATEGORY_ID = ?";
   private static final String SQL_FIND_BY_ID = "SELECT POST_ID, CATEGORY_ID, USER_ID, AMOUNT, NOTE, POST_DATE FROM POSTS WHERE USER_ID = ? AND CATEGORY_ID = ? AND POST_ID = ?";
-  private static final String SQL_CREATE = "INSERT INTO POSTS (POST_ID, CATEGORY_ID, USER_ID, AMOUNT, NOTE, POST_DATE) VALUES(NEXTVAL('ET_TRANSACTIONS_SEQ'), ?, ?, ?, ?, ?)";
+  private static final String SQL_CREATE = "INSERT INTO POSTS (POST_ID, CATEGORY_ID, USER_ID, AMOUNT, NOTE, POST_DATE) VALUES(NEXTVAL('POSTS_SEQ'), ?, ?, ?, ?, ?)";
   private static final String SQL_UPDATE = "UPDATE POSTS SET AMOUNT = ?, NOTE = ?, POST_DATE = ? WHERE USER_ID = ? AND CATEGORY_ID = ? AND POST_ID = ?";
   private static final String SQL_DELETE = "DELETE FROM POSTS WHERE USER_ID = ? AND CATEGORY_ID = ? AND POST_ID = ?";
 
@@ -30,20 +26,20 @@ public class PostRepositoryImpl implements PostRepository{
 
   @Override
   public List<Post> findAll(Integer userId, Integer categoryId) {
-    return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{userId, categoryId}, transactionRowMapper);
+    return jdbcTemplate.query(SQL_FIND_ALL, new Object[]{userId, categoryId}, postRowMapper);
   }
 
   @Override
-  public Post findById(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException {
+  public Post findById(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException {
     try {
-      return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId, transactionId}, transactionRowMapper);
+      return jdbcTemplate.queryForObject(SQL_FIND_BY_ID, new Object[]{userId, categoryId, postId}, postRowMapper);
     }catch (Exception e) {
-      throw new ResourceNotFoundException("Transaction not found");
+      throw new ResourceNotFoundException("Post not found");
     }
   }
 
   @Override
-  public Integer create(Integer userId, Integer categoryId, Double amount, String note, Long transactionDate) throws BadRequestException {
+  public Integer create(Integer userId, Integer categoryId, Double amount, String note, Long postDate) throws BadRequestException {
     try {
       KeyHolder keyHolder = new GeneratedKeyHolder();
       jdbcTemplate.update(connection -> {
@@ -52,37 +48,37 @@ public class PostRepositoryImpl implements PostRepository{
         ps.setInt(2, userId);
         ps.setDouble(3, amount);
         ps.setString(4, note);
-        ps.setLong(5, transactionDate);
+        ps.setLong(5, postDate);
         return ps;
       }, keyHolder);
-      return (Integer) keyHolder.getKeys().get("TRANSACTION_ID");
+      return (Integer) keyHolder.getKeys().get("POST_ID");
     }catch (Exception e) {
       throw new BadRequestException("Invalid request");
     }
   }
 
   @Override
-  public void update(Integer userId, Integer categoryId, Integer transactionId, Post post) throws BadRequestException {
+  public void update(Integer userId, Integer categoryId, Integer postId, Post post) throws BadRequestException {
     try {
-      jdbcTemplate.update(SQL_UPDATE, new Object[]{post.getAmount(), post.getNote(), post.getPostDate(), userId, categoryId, transactionId});
+      jdbcTemplate.update(SQL_UPDATE, new Object[]{post.getAmount(), post.getNote(), post.getPostDate(), userId, categoryId, postId});
     }catch (Exception e) {
       throw new BadRequestException("Invalid request");
     }
   }
 
   @Override
-  public void removeById(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException {
-    int count = jdbcTemplate.update(SQL_DELETE, new Object[]{userId, categoryId, transactionId});
+  public void removeById(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException {
+    int count = jdbcTemplate.update(SQL_DELETE, new Object[]{userId, categoryId, postId});
     if(count == 0)
-      throw new ResourceNotFoundException("Transaction not found");
+      throw new ResourceNotFoundException("Post not found");
   }
 
-  private RowMapper<Post> transactionRowMapper = ((rs, rowNum) -> {
-    return new Post(rs.getInt("TRANSACTION_ID"),
+  private RowMapper<Post> postRowMapper = ((rs, rowNum) -> {
+    return new Post(rs.getInt("POST_ID"),
         rs.getInt("CATEGORY_ID"),
         rs.getInt("USER_ID"),
         rs.getDouble("AMOUNT"),
         rs.getString("NOTE"),
-        rs.getLong("TRANSACTION_DATE"));
+        rs.getLong("POST_DATE"));
   });
 }

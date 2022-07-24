@@ -1,16 +1,12 @@
 package com.fanyacode.fanyacode.repository;
 
-import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.exception.BadRequestException;
 import com.fanyacode.fanyacode.exception.ResourceNotFoundException;
 import com.fanyacode.fanyacode.model.Category;
-import com.fanyacode.fanyacode.model.User;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,18 +16,18 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CategoryRepositoryImpl implements CategoryRepository{
   private static final String SQL_FIND_ALL = "SELECT C.CATEGORY_ID, C.USER_ID, C.TITLE, C.DESCRIPTION, " +
-      "COALESCE(SUM(T.AMOUNT), 0) TOTAL_EXPENSE " +
-      "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_ID " +
+      "COALESCE(SUM(P.AMOUNT), 0) TOTAL_EXPENSE " +
+      "FROM POSTS P RIGHT OUTER JOIN CATEGORIES C ON C.CATEGORY_ID = P.CATEGORY_ID " +
       "WHERE C.USER_ID = ? GROUP BY C.CATEGORY_ID";
   private static final String SQL_FIND_BY_ID = "SELECT C.CATEGORY_ID, C.USER_ID, C.TITLE, C.DESCRIPTION, " +
       "COALESCE(SUM(T.AMOUNT), 0) TOTAL_EXPENSE " +
-      "FROM ET_TRANSACTIONS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_ID " +
+      "FROM POSTS T RIGHT OUTER JOIN ET_CATEGORIES C ON C.CATEGORY_ID = T.CATEGORY_ID " +
       "WHERE C.USER_ID = ? AND C.CATEGORY_ID = ? GROUP BY C.CATEGORY_ID";
-  private static final String SQL_CREATE = "INSERT INTO ET_CATEGORIES (CATEGORY_ID, USER_ID, TITLE, DESCRIPTION) VALUES(NEXTVAL('ET_CATEGORIES_SEQ'), ?, ?, ?)";
-  private static final String SQL_UPDATE = "UPDATE ET_CATEGORIES SET TITLE = ?, DESCRIPTION = ? " +
+  private static final String SQL_CREATE = "INSERT INTO CATEGORIES (CATEGORY_ID, USER_ID, TITLE, DESCRIPTION) VALUES(NEXTVAL('CATEGORIES_SEQ'), ?, ?, ?)";
+  private static final String SQL_UPDATE = "UPDATE CATEGORIES SET TITLE = ?, DESCRIPTION = ? " +
       "WHERE USER_ID = ? AND CATEGORY_ID = ?";
-  private static final String SQL_DELETE_CATEGORY = "DELETE FROM ET_CATEGORIES WHERE USER_ID = ? AND CATEGORY_ID = ?";
-  private static final String SQL_DELETE_ALL_TRANSACTIONS = "DELETE FROM ET_TRANSACTIONS WHERE CATEGORY_ID = ?";
+  private static final String SQL_DELETE_CATEGORY = "DELETE FROM CATEGORIES WHERE USER_ID = ? AND CATEGORY_ID = ?";
+  private static final String SQL_DELETE_ALL_POSTS = "DELETE FROM POSTS WHERE CATEGORY_ID = ?";
 
   @Autowired
   JdbcTemplate jdbcTemplate;
@@ -78,12 +74,12 @@ public class CategoryRepositoryImpl implements CategoryRepository{
 
   @Override
   public void removeById(Integer userId, Integer categoryId) {
-    this.removeAllCatTransactions(categoryId);
+    this.removeAllCatPosts(categoryId);
     jdbcTemplate.update(SQL_DELETE_CATEGORY, new Object[]{userId, categoryId});
   }
 
-  private void removeAllCatTransactions(Integer categoryId) {
-    jdbcTemplate.update(SQL_DELETE_ALL_TRANSACTIONS, new Object[]{categoryId});
+  private void removeAllCatPosts(Integer categoryId) {
+    jdbcTemplate.update(SQL_DELETE_ALL_POSTS, new Object[]{categoryId});
   }
 
   private RowMapper<Category> categoryRowMapper = ((rs, rowNum) -> {

@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+@RestController
+@RequestMapping("/api/categories")
 public class CatergoryContoller {
   @Autowired
   CategoryService categoryService;
@@ -60,7 +64,7 @@ public class CatergoryContoller {
   public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId) {
     int userId = (Integer) request.getAttribute("userId");
-    categoryService.removeCategoryWithAllTransactions(userId, categoryId);
+    categoryService.removeCategoryWithAllPosts(userId, categoryId);
     Map<String, Boolean> map = new HashMap<>();
     map.put("success", true);
     return new ResponseEntity<>(map, HttpStatus.OK);

@@ -11,12 +11,12 @@ public interface PostRepository {
 
   List<Post> findAll(Integer userId, Integer categoryId);
 
-  Post findById(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException;
+  Post findById(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException;
 
-  Integer create(Integer userId, Integer categoryId, Double amount, String note, Long transactionDate) throws BadRequestException;
+  Integer create(Integer userId, Integer categoryId, Double amount, String note, Long postDate) throws BadRequestException;
 
-  void update(Integer userId, Integer categoryId, Integer transactionId, Post transaction) throws BadRequestException;
+  void update(Integer userId, Integer categoryId, Integer postId, Post post) throws BadRequestException;
 
-  void removeById(Integer userId, Integer categoryId, Integer transactionId) throws ResourceNotFoundException;
+  void removeById(Integer userId, Integer categoryId, Integer postId) throws ResourceNotFoundException;
 
 }
