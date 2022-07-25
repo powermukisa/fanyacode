@@ -1,0 +1,33 @@
+# ---------------
+# Server settings
+# ---------------
+
+server:
+  port: 8444
+
+# ---------------
+# Core Spring settings
+# ---------------
+
+spring:
+  datasource:
+#    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5444/fanyacode
+    username: postgres
+    password: postgres
+
+#  jpa:
+#    show-sql : true
+#    hibernate:
+#      ddl-auto : create
+#
+#    properties:
+#      hibernate:
+#        hbm2dll:
+#          create_namespaces : true
+
+#  flyway:
+#    url: jdbc:postgresql://localhost:5432/fanyacode?currentSchema=auth
+#    user: postgres
+#    password: postgres
+#    schemas: auth

@@ -15,7 +15,6 @@ research to see which algorithm works best for a given task.
 ## Run on local (using Intellij)
 
 ### Run postgres
-- Create run config
 - Comment out fanyacode service in docker-compose.yml file
 - Run `docker-compose down`
 - Run `docker-compose up`
@@ -24,10 +23,17 @@ Troubleshooting: If docker compose fails because a port is already occupied,  li
 `sudo lsof -i tcp:<port_number>`
 `kill -9 <process_id>`
 
+### Initialise db
+Everytime the Postgres docker container is restarted, an empty database will be created. To set up the database (set up tables, sequences, etc),:
+
+- Copy over the init.db.sql file from this repo into the root of the docker container: `docker cp init_db.sql fanyacodedb:/`
+- Exec into the container with bash: `docker container exec -it fanyacodedb bash`
+- Run init_db.sql file postgres user: `psql -U postgres --file init_db.sql`
+
 ### Run app
-Once Postgres is ready in a docker container,  run the app via the Intellij Run interface.
-Observe the logs. You should see something like "Tomcat started on port(s): 8080 (http) with context path". That's an indication that the service
-has started
+Once Postgres is ready in a docker container,  run the app via the Intellij Run interface. A default run config should be created for 
+the main FanyacodeApplication class. When the app is running, observe the logs. You should see something like 
+"Tomcat started on port(s): 8080 (http) with context path". That's an indication that the service has started.
 
 ## Run on local (using docker entirely)
 - Generate the jar file: ` ./gradlew clean build -x test`
@@ -45,7 +51,7 @@ Connection details: [!](src/main/resources/postgresl-readme-screenshot.png)
 
 
 ### Terminal
-- To directly launch the psql shell run this instead: `docker exec -tiu postgres postgres-fanyacode psql`
+- To directly launch the psql shell run this instead: `docker exec -tiu postgres fanyacodedb psql`
 
 To connect to the container itself but not launch psql shell:
 - Run `docker ps` to list docker containers
@@ -69,3 +75,5 @@ The Fanya Postman Workspace has a collection of the endpoints in this repo - for
 ## Intellij Http Client
 Instead of Postman, you can also run requests via the `test.http` file
 
+## Architecture
+Initial set with postgres, Spring jdbc and JWT auth : https://www.youtube.com/watch?v=5VUjP1wMqoE&t=1s
