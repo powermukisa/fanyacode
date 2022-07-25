@@ -6,7 +6,6 @@ import com.fanyacode.fanyacode.model.Category;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface CategoryRepository {
 
   List<Category> findAll(Integer userId) throws ResourceNotFoundException;

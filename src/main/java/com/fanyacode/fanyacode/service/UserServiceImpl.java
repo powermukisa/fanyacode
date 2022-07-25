@@ -3,11 +3,10 @@ package com.fanyacode.fanyacode.service;
 import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.model.User;
 import com.fanyacode.fanyacode.repository.UserRepository;
-import com.fanyacode.fanyacode.service.UserService;
 import java.util.regex.Pattern;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

@@ -1,17 +1,13 @@
 package com.fanyacode.fanyacode.service;
 
-import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.exception.BadRequestException;
 import com.fanyacode.fanyacode.exception.ResourceNotFoundException;
 import com.fanyacode.fanyacode.model.Category;
-import com.fanyacode.fanyacode.model.User;
 import com.fanyacode.fanyacode.repository.CategoryRepository;
-import com.fanyacode.fanyacode.repository.UserRepository;
 import java.util.List;
-import java.util.regex.Pattern;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

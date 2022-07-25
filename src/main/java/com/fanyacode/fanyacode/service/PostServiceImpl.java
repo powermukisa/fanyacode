@@ -5,9 +5,9 @@ import com.fanyacode.fanyacode.exception.ResourceNotFoundException;
 import com.fanyacode.fanyacode.model.Post;
 import com.fanyacode.fanyacode.repository.PostRepository;
 import java.util.List;
-import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional

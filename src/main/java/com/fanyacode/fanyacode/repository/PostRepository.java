@@ -6,7 +6,6 @@ import com.fanyacode.fanyacode.model.Post;
 import java.util.List;
 import org.springframework.stereotype.Repository;
 
-@Repository
 public interface PostRepository {
 
   List<Post> findAll(Integer userId, Integer categoryId);
