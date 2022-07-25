@@ -38,7 +38,7 @@ public class UserRepositoryImpl  implements UserRepository{
         ps.setString(4, hashedPassword);
         return ps;
       }, keyHolder);
-      return (Integer) keyHolder.getKeys().get("ID");
+      return (Integer) keyHolder.getKeys().get("USER_ID");
     }catch (Exception e) {
       throw new AuthException("Invalid details. Failed to create account");
     }

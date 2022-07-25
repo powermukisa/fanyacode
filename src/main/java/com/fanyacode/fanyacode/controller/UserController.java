@@ -54,14 +54,6 @@ public class UserController {
   @Autowired
   UserService userService;
 
-  @PostMapping("/login")
-  public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
-    String email = (String) userMap.get("email");
-    String password = (String) userMap.get("password");
-    User user = userService.validateUser(email, password);
-    return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
-  }
-
   @PostMapping("/signup")
   public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
     String firstName = (String) userMap.get("firstName");
@@ -69,6 +61,14 @@ public class UserController {
     String email = (String) userMap.get("email");
     String password = (String) userMap.get("password");
     User user = userService.registerUser(firstName, lastName, email, password);
+    return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, Object> userMap) {
+    String email = (String) userMap.get("email");
+    String password = (String) userMap.get("password");
+    User user = userService.validateUser(email, password);
     return new ResponseEntity<>(generateJWTToken(user), HttpStatus.OK);
   }
 
