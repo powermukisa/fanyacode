@@ -1,4 +1,4 @@
-package com.fanyacode.fanyacode.filter;
+package com.fanyacode.fanyacode.security.filter;
 
 import com.fanyacode.fanyacode.Constants;
 import io.jsonwebtoken.Claims;

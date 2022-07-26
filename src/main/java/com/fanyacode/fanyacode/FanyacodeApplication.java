@@ -1,7 +1,6 @@
 package com.fanyacode.fanyacode;
 
-import com.fanyacode.fanyacode.filter.AuthFilter;
-import com.fanyacode.fanyacode.model.AuditorAwareImpl;
+import com.fanyacode.fanyacode.security.filter.AuthFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -23,6 +22,15 @@ public class FanyacodeApplication {
 		SpringApplication.run(FanyacodeApplication.class, args);
 	}
 
+//	@Bean
+//	public FilterRegistrationBean<AuthFilter> filterRegistrationBean() {
+//		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
+//		AuthFilter authFilter = new AuthFilter();
+//		registrationBean.setFilter(authFilter);
+//		registrationBean.addUrlPatterns("/api/categories/*");
+//		return registrationBean;
+//	}
+
 	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter() {
 		FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
@@ -35,14 +43,4 @@ public class FanyacodeApplication {
 		registrationBean.setOrder(0);
 		return registrationBean;
 	}
-
-	@Bean
-	public FilterRegistrationBean<AuthFilter> filterRegistrationBean() {
-		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
-		AuthFilter authFilter = new AuthFilter();
-		registrationBean.setFilter(authFilter);
-		registrationBean.addUrlPatterns("/api/categories/*");
-		return registrationBean;
-	}
-
 }
