@@ -69,6 +69,10 @@ Psql quick commands:
 ## Testing
 Run unit tests with `./gradlew test`
 
+
+## Documentation
+- Swagger: http://localhost:8444/swagger-ui/index.html
+
 ## Postman 
 The Fanya Postman Workspace has a collection of the endpoints in this repo - for ease of e2e testing
 

@@ -5,6 +5,11 @@ import com.fanyacode.fanyacode.model.User;
 import com.fanyacode.fanyacode.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +59,14 @@ public class UserController {
   @Autowired
   UserService userService;
 
+  @Operation(summary = "Create a user with default role: USER")
+  @ApiResponses(value = {
+      @ApiResponse(responseCode = "202", description = "User Created",
+          content = {@Content(mediaType = "application/json",
+              schema = @Schema(implementation = User.class))}),
+      @ApiResponse(responseCode = "400", description = "Invalid input",
+          content = @Content)
+  })
   @PostMapping("/signup")
   public ResponseEntity<Map<String, String>> registerUser(@RequestBody Map<String, Object> userMap) {
     String firstName = (String) userMap.get("firstName");
