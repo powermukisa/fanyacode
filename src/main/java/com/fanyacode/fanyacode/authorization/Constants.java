@@ -1,4 +1,4 @@
-package com.fanyacode.fanyacode;
+package com.fanyacode.fanyacode.authorization;
 
 public class Constants {
   public static final String API_SECRET_KEY = "fanycacodeapikey";

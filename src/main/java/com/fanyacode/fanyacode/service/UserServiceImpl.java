@@ -1,6 +1,9 @@
 package com.fanyacode.fanyacode.service;
 
+import static com.fanyacode.fanyacode.authorization.JwtUtil.generateJWTToken;
+
 import com.fanyacode.fanyacode.authorization.Role;
+import com.fanyacode.fanyacode.controller.model.AuthResponse;
 import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.model.User;
 import com.fanyacode.fanyacode.repository.AuthorityRepository;
@@ -22,13 +25,15 @@ public class UserServiceImpl  implements UserService {
 
 
   @Override
-  public User validateUser(String email, String password) throws AuthException {
+  public AuthResponse validateUser(String email, String password) throws AuthException {
     if(email != null) email = email.toLowerCase();
-    return userRepository.findByEmailAndPassword(email, password);
+    User user = userRepository.findByEmailAndPassword(email, password);
+    String token = generateJWTToken(user, Role.DEFAULT_USER.getRole());
+    return new AuthResponse(token);
   }
 
   @Override
-  public User registerUser(String firstName, String lastName, String email, String password) throws AuthException {
+  public AuthResponse registerUser(String firstName, String lastName, String email, String password) throws AuthException {
     //check email is valid and it's not duplicate
     Pattern pattern = Pattern.compile("^(.+)@(.+)$");
     if(email != null) email = email.toLowerCase();
@@ -44,6 +49,8 @@ public class UserServiceImpl  implements UserService {
     //assign default role to user
     authorityRepository.create(userId, Role.DEFAULT_USER.getRole());
 
-    return userRepository.findById(userId);
+    User user = userRepository.findById(userId);
+    String token = generateJWTToken(user, Role.DEFAULT_USER.getRole());
+    return new AuthResponse(token);
   }
 }
