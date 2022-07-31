@@ -10,6 +10,9 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=fanyacode
       - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./postgres/init/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+      - ./postgres/postgres-local-data:/var/lib/postgresql/data
 
 #  fanyacode:
 #    image: fanyacode

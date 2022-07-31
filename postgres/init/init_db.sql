@@ -1,7 +1,7 @@
-drop database fanyacode;
-drop user postgres;
-create user postgres with password 'postgres';
-create database fanyacode with template=template0 owner=postgres;
+-- drop database fanyacode;
+-- drop user postgres;
+-- create user postgres with password 'postgres';
+-- create database fanyacode with template=template0 owner=postgres;
 \connect fanyacode;
 alter default privileges grant all on tables to postgres;
 alter default privileges grant all on sequences to postgres;
