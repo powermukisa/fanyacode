@@ -1,8 +1,7 @@
 package com.fanyacode.fanyacode.service;
 
-import com.fanyacode.fanyacode.controller.model.AuthResponse;
+import com.fanyacode.fanyacode.controller.model.response.AuthResponse;
 import com.fanyacode.fanyacode.exception.AuthException;
-import com.fanyacode.fanyacode.model.User;
 
 public interface UserService {
 

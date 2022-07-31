@@ -3,10 +3,9 @@ package com.fanyacode.fanyacode.service;
 import static com.fanyacode.fanyacode.authorization.JwtUtil.generateJWTToken;
 
 import com.fanyacode.fanyacode.authorization.Role;
-import com.fanyacode.fanyacode.controller.model.AuthResponse;
+import com.fanyacode.fanyacode.controller.model.response.AuthResponse;
 import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.model.User;
-import com.fanyacode.fanyacode.repository.AuthorityRepository;
 import com.fanyacode.fanyacode.repository.UserRepository;
 import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class UserServiceImpl  implements UserService {
   UserRepository userRepository;
 
   @Autowired
-  AuthorityRepository authorityRepository;
+  AuthorityService authorityService;
 
 
   @Override
@@ -47,7 +46,7 @@ public class UserServiceImpl  implements UserService {
     Integer userId = userRepository.create(firstName, lastName, email, password);
 
     //assign default role to user
-    authorityRepository.create(userId, Role.DEFAULT_USER.getRole());
+    authorityService.createAuthority(userId);
 
     User user = userRepository.findById(userId);
     String token = generateJWTToken(user, Role.DEFAULT_USER.getRole());

@@ -1,4 +1,4 @@
-package com.fanyacode.fanyacode.controller.model;
+package com.fanyacode.fanyacode.controller.model.request;
 
 
 import lombok.AllArgsConstructor;

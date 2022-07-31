@@ -1,7 +1,9 @@
 package com.fanyacode.fanyacode.repository;
 
 import com.fanyacode.fanyacode.exception.AuthException;
+import com.fanyacode.fanyacode.exception.BadRequestException;
 import com.fanyacode.fanyacode.model.Authority;
+import com.fanyacode.fanyacode.model.Post;
 import com.fanyacode.fanyacode.model.User;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AuthorityRepositoryImpl implements AuthorityRepository{
   private static final String SQL_CREATE = "INSERT INTO AUTHORITIES (AUTHORITY_ID, USER_ID, AUTHORITY) VALUES(NEXTVAL('AUTHORITIES_SEQ'), ?, ?)";
+  private static final String SQL_FIND_BY_USER_ID = "SELECT AUTHORITY_ID, USER_ID, AUTHORITY FROM AUTHORITIES WHERE USER_ID = ?";
+  private static final String SQL_UPDATE = "UPDATE AUTHORITIES SET AUTHORITY = ? WHERE USER_ID = ?";
 
   @Autowired
   JdbcTemplate jdbcTemplate;
@@ -34,6 +38,20 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
       return (Integer) keyHolder.getKeys().get("AUTHORITY_ID");
     }catch (Exception e) {
       throw new AuthException("Failed to create authority with error: " + e.getMessage());
+    }
+  }
+
+  @Override
+  public Authority findByUserId(Integer userId) {
+    return jdbcTemplate.queryForObject(SQL_FIND_BY_USER_ID, new Object[]{userId}, authorityRowMapper);
+  }
+
+  @Override
+  public void update(Integer userId, Integer authority) throws BadRequestException {
+    try {
+      jdbcTemplate.update(SQL_UPDATE, new Object[]{authority, userId});
+    }catch (Exception e) {
+      throw new BadRequestException("Invalid request");
     }
   }
 

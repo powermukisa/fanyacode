@@ -1,4 +1,4 @@
-package com.fanyacode.fanyacode.controller.model;
+package com.fanyacode.fanyacode.controller.model.response;
 
 
 import lombok.AllArgsConstructor;
@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthResponse {
-  private String token;
+public class SimpleSuccessResponse {
+  private Boolean success;
 }

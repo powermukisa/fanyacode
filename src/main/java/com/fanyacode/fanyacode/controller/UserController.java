@@ -1,10 +1,8 @@
 package com.fanyacode.fanyacode.controller;
 
-import static com.fanyacode.fanyacode.authorization.JwtUtil.generateJWTToken;
-
-import com.fanyacode.fanyacode.controller.model.AuthResponse;
-import com.fanyacode.fanyacode.controller.model.LoginRequest;
-import com.fanyacode.fanyacode.controller.model.SignupRequest;
+import com.fanyacode.fanyacode.controller.model.response.AuthResponse;
+import com.fanyacode.fanyacode.controller.model.request.LoginRequest;
+import com.fanyacode.fanyacode.controller.model.request.SignupRequest;
 import com.fanyacode.fanyacode.model.User;
 import com.fanyacode.fanyacode.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
