@@ -79,6 +79,7 @@ public class PostRepositoryImpl implements PostRepository{
         rs.getInt("USER_ID"),
         rs.getDouble("AMOUNT"),
         rs.getString("NOTE"),
-        rs.getLong("POST_DATE"));
+        rs.getLong("POST_DATE")
+    );
   });
 }

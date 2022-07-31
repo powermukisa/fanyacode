@@ -87,6 +87,7 @@ public class CategoryRepositoryImpl implements CategoryRepository{
         rs.getInt("USER_ID"),
         rs.getString("TITLE"),
         rs.getString("DESCRIPTION"),
-        rs.getDouble("TOTAL_EXPENSE"));
+        rs.getDouble("TOTAL_EXPENSE")
+    );
   });
 }

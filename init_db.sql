@@ -11,7 +11,8 @@ create table users(
                          first_name varchar(20) not null,
                          last_name varchar(20) not null,
                          email varchar(30) not null,
-                         password text not null
+                         password text not null,
+                         enabled boolean not null
 );
 
 create table categories(
@@ -36,6 +37,18 @@ alter table posts add constraint posts_cat_fk
 alter table posts add constraint posts_users_fk
     foreign key (user_id) references users(user_id);
 
+create table authorities(
+                      authority_id integer primary key not null,
+                      user_id integer not null,
+                      authority varchar(10) not null
+
+);
+alter table authorities add constraint authorities_users_fk
+    foreign key (user_id) references users(user_id);
+
 create sequence users_seq increment 1 start 1;
 create sequence categories_seq increment 1 start 1;
 create sequence posts_seq increment 1 start 1000;
+create sequence authorities_seq increment 1 start 1;
+
+create unique index ix_auth_userid on authorities (user_id,authority);
