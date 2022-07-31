@@ -1,8 +1,9 @@
 package com.fanyacode.fanyacode.controller;
 
-import com.fanyacode.fanyacode.controller.model.response.AuthResponse;
+import com.fanyacode.fanyacode.controller.model.response.LoginResponse;
 import com.fanyacode.fanyacode.controller.model.request.LoginRequest;
 import com.fanyacode.fanyacode.controller.model.request.SignupRequest;
+import com.fanyacode.fanyacode.controller.model.response.SimpleSuccessResponse;
 import com.fanyacode.fanyacode.model.User;
 import com.fanyacode.fanyacode.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,14 +34,14 @@ public class UserController {
           content = @Content)
   })
   @PostMapping("/signup")
-  public ResponseEntity<AuthResponse> registerUser(@RequestBody SignupRequest request) {
-    AuthResponse response = userService.registerUser(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword());
-    return new ResponseEntity<>(response, HttpStatus.OK);
+  public ResponseEntity<SimpleSuccessResponse> registerUser(@RequestBody SignupRequest request) {
+    userService.registerUser(request.getFirstName(), request.getLastName(), request.getEmail(), request.getPassword());
+    return new ResponseEntity<>(new SimpleSuccessResponse(true), HttpStatus.OK);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<AuthResponse> loginUser(@RequestBody LoginRequest request) {
-    AuthResponse response = userService.validateUser(request.getEmail(), request.getPassword());
+  public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginRequest request) {
+    LoginResponse response = userService.validateUser(request.getEmail(), request.getPassword());
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 
