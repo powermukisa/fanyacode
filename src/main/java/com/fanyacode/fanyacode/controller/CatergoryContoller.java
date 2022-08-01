@@ -1,8 +1,8 @@
 package com.fanyacode.fanyacode.controller;
 
+import com.fanyacode.fanyacode.controller.model.response.SimpleSuccessResponse;
 import com.fanyacode.fanyacode.model.Category;
 import com.fanyacode.fanyacode.service.CategoryService;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -50,23 +50,19 @@ public class CatergoryContoller {
   }
 
   @PutMapping("/{categoryId}")
-  public ResponseEntity<Map<String, Boolean>> updateCategory(HttpServletRequest request,
+  public ResponseEntity<SimpleSuccessResponse> updateCategory(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId,
       @RequestBody Category category) {
     int userId = (Integer) request.getAttribute("userId");
     categoryService.updateCategory(userId, categoryId, category);
-    Map<String, Boolean> map = new HashMap<>();
-    map.put("success", true);
-    return new ResponseEntity<>(map, HttpStatus.OK);
+    return new ResponseEntity<>(new SimpleSuccessResponse(true), HttpStatus.OK);
   }
 
   @DeleteMapping("/{categoryId}")
-  public ResponseEntity<Map<String, Boolean>> deleteCategory(HttpServletRequest request,
+  public ResponseEntity<SimpleSuccessResponse> deleteCategory(HttpServletRequest request,
       @PathVariable("categoryId") Integer categoryId) {
     int userId = (Integer) request.getAttribute("userId");
     categoryService.removeCategoryWithAllPosts(userId, categoryId);
-    Map<String, Boolean> map = new HashMap<>();
-    map.put("success", true);
-    return new ResponseEntity<>(map, HttpStatus.OK);
+    return new ResponseEntity<>(new SimpleSuccessResponse(true), HttpStatus.OK);
   }
 }

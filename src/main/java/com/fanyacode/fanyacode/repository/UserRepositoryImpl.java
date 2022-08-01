@@ -15,11 +15,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserRepositoryImpl  implements UserRepository{
-  private static final String SQL_CREATE = "INSERT INTO USERS(USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD) VALUES(NEXTVAL('USERS_SEQ'), ?, ?, ?, ?)";
+  private static final String SQL_CREATE = "INSERT INTO USERS(USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, ENABLED) VALUES(NEXTVAL('USERS_SEQ'), ?, ?, ?, ?, ?)";
   private static final String SQL_COUNT_BY_EMAIL = "SELECT COUNT(*) FROM USERS WHERE EMAIL = ?";
-  private static final String SQL_FIND_BY_ID = "SELECT USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD " +
+  private static final String SQL_FIND_BY_ID = "SELECT USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, ENABLED " +
       "FROM USERS WHERE USER_ID = ?";
-  private static final String SQL_FIND_BY_EMAIL = "SELECT USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD " +
+  private static final String SQL_FIND_BY_EMAIL = "SELECT USER_ID, FIRST_NAME, LAST_NAME, EMAIL, PASSWORD, ENABLED " +
       "FROM USERS WHERE EMAIL = ?";
 
   @Autowired
@@ -36,6 +36,7 @@ public class UserRepositoryImpl  implements UserRepository{
         ps.setString(2, lastName);
         ps.setString(3, email);
         ps.setString(4, hashedPassword);
+        ps.setBoolean(5, true);
         return ps;
       }, keyHolder);
       return (Integer) keyHolder.getKeys().get("USER_ID");
@@ -71,6 +72,8 @@ public class UserRepositoryImpl  implements UserRepository{
         rs.getString("FIRST_NAME"),
         rs.getString("LAST_NAME"),
         rs.getString("EMAIL"),
-        rs.getString("PASSWORD"));
+        rs.getString("PASSWORD"),
+        rs.getBoolean("ENABLED")
+    );
   });
 }

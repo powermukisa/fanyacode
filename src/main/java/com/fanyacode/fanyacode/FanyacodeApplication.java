@@ -41,7 +41,7 @@ public class FanyacodeApplication {
 		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
 		AuthFilter authFilter = new AuthFilter();
 		registrationBean.setFilter(authFilter);
-		registrationBean.addUrlPatterns("/api/categories/*");
+		registrationBean.addUrlPatterns("/api/categories/*", "/api/authorities/*"); //todo can we allow all except api/auth?
 		return registrationBean;
 	}
 

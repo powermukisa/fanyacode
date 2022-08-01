@@ -24,6 +24,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+	implementation group: 'org.springdoc', name: 'springdoc-openapi-ui', version: '1.6.9'
+	//	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0' //springfox requires more set such as Dockets, \
+	//	but has more control over what's exposed vie Swagger. Using the easier springdoc for now
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	compileOnly 'org.projectlombok:lombok'

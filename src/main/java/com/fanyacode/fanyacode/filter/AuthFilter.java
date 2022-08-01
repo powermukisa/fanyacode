@@ -1,6 +1,6 @@
 package com.fanyacode.fanyacode.filter;
 
-import com.fanyacode.fanyacode.Constants;
+import com.fanyacode.fanyacode.authorization.Constants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.io.IOException;
