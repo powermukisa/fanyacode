@@ -22,12 +22,12 @@ public class UserServiceImpl  implements UserService {
   @Autowired
   AuthorityService authorityService;
 
-
   @Override
   public LoginResponse validateUser(String email, String password) throws AuthException {
     if(email != null) email = email.toLowerCase();
     User user = userRepository.findByEmailAndPassword(email, password);
-    String token = generateJWTToken(user, Role.DEFAULT_USER.getRole());
+    int role = authorityService.findByUserId(user.getUserId()).getAuthority();
+    String token = generateJWTToken(user, role);
     return new LoginResponse(token);
   }
 

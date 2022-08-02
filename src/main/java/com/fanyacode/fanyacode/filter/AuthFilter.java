@@ -4,7 +4,7 @@ import com.fanyacode.fanyacode.authorization.Constants;
 import com.fanyacode.fanyacode.authorization.model.Input;
 import com.fanyacode.fanyacode.authorization.OpaClient;
 import com.fanyacode.fanyacode.authorization.model.OpaRequest;
-import com.fanyacode.fanyacode.authorization.model.OpaResponse;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.io.IOException;

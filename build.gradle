@@ -28,7 +28,7 @@ dependencies {
 	//	implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0' //springfox requires more set such as Dockets, \
 	//	but has more control over what's exposed vie Swagger. Using the easier springdoc for now
 
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: '2021.0.3'
+//	implementation group: 'org.springframework.cloud', name: 'spring-cloud-dependencies', version: '2021.0.3'
 	implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '3.1.3'
 
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

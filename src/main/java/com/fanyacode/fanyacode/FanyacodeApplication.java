@@ -26,6 +26,14 @@ public class FanyacodeApplication {
 	}
 
 	@Bean
+	public FilterRegistrationBean<AuthFilter> filterRegistrationBean(AuthFilter authFilter) {
+		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
+		registrationBean.setFilter(authFilter);
+		registrationBean.addUrlPatterns("/api/categories/*", "/api/authorities/*"); //todo can we allow all except api/auth?
+		return registrationBean;
+	}
+
+	@Bean
 	public FilterRegistrationBean<CorsFilter> corsFilter() {
 		FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>();
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -35,15 +43,6 @@ public class FanyacodeApplication {
 		source.registerCorsConfiguration("/**", config);
 		registrationBean.setFilter(new CorsFilter(source));
 		registrationBean.setOrder(0);
-		return registrationBean;
-	}
-
-	@Bean
-	public FilterRegistrationBean<AuthFilter> filterRegistrationBean() {
-		FilterRegistrationBean<AuthFilter> registrationBean = new FilterRegistrationBean<>();
-		AuthFilter authFilter = new AuthFilter();
-		registrationBean.setFilter(authFilter);
-		registrationBean.addUrlPatterns("/api/categories/*", "/api/authorities/*"); //todo can we allow all except api/auth?
 		return registrationBean;
 	}
 

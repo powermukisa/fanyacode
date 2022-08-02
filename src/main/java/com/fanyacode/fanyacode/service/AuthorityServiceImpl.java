@@ -25,6 +25,11 @@ public class AuthorityServiceImpl implements AuthorityService {
   }
 
   @Override
+  public Authority findByUserId(Integer userId) throws ResourceNotFoundException {
+    return authorityRepository.findByUserId(userId);
+  }
+
+  @Override
   public void updateAuthority(Integer userId, Integer authority) throws BadRequestException {
     authorityRepository.update(userId, authority);
   }
