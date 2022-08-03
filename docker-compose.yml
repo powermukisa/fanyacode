@@ -14,6 +14,24 @@ services:
       - ./postgres/init/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
       - ./postgres/postgres-local-data:/var/lib/postgresql/data
 
+  opa:
+    image: openpolicyagent/opa:latest
+    container_name: fanyacode_opa
+    ports:
+      - "8555:8181"
+    command:
+      - "run"
+      - "--server"
+      - "--log-level=debug"
+      - "--set=decision_logs.console=true"
+      - "/config/policy.rego"
+#      enable these when using bundles:
+#      - "--set=bundles.authz.polling.min_delay_seconds=5"
+#      - "--set=bundles.authz.polling.max_delay_seconds=10"
+#      - "--set=bundles.authz.resource=opa/bundles/authz.tar.gz"
+    volumes:
+      - ./opa/policy.rego:/config/policy.rego
+
 #  fanyacode:
 #    image: fanyacode
 #    container_name: fanyacode

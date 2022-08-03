@@ -5,10 +5,14 @@
 server:
   port: 8444
 
+
+app:
+  client:
+    baseUrl: http://localhost:8444
+
 # ---------------
 # Core Spring settings
 # ---------------
-
 spring:
   datasource:
 #    driverClassName: org.postgresql.Driver
@@ -25,6 +29,24 @@ spring:
 #      hibernate:
 #        hbm2dll:
 #          create_namespaces : true
+
+# ---------------
+# OPA
+# ---------------
+opa:
+  client:
+    url: http://localhost:8555/v1/data
+
+
+# ---------------
+# Feign
+# ---------------
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
 
 #  flyway:
 #    url: jdbc:postgresql://localhost:5432/fanyacode?currentSchema=auth
