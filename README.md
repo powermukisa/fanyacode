@@ -96,3 +96,12 @@ Instead of Postman, you can also run requests via the `test.http` file
 
 ## Architecture
 Initial set with postgres, Spring jdbc and JWT auth : https://www.youtube.com/watch?v=5VUjP1wMqoE&t=1s
+
+## Deploy to DockerHub
+Dockerhub is good for sharing images with teammates.
+- Create jar file: `./gradlew build -x test`
+- Build docker image from DockerFile: `docker build -t fanyacode-app .`
+- Run `docker images` to list images
+- Login to docker `docker login --username=powermukisa`
+- Tag the image: `docker tag [imageId] powermukisa/fanyacode-app:latest`
+- Push image: `docker push powermukisa/fanyacode-app:latest`
