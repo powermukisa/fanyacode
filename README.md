@@ -105,3 +105,30 @@ Dockerhub is good for sharing images with teammates.
 - Login to docker `docker login --username=powermukisa`
 - Tag the image: `docker tag [imageId] powermukisa/fanyacode-app:latest`
 - Push image: `docker push powermukisa/fanyacode-app:latest`
+
+Optional: To check that the image works as expected, you can run it using 
+`docker run -p 8444:8444 fanyacode-app`
+
+## Deploy to AWS ECR
+- Build docker image using docker build command (instructions above)
+- Login to ECR
+
+[//]: # (    `aws ecr get-login-password --region us-west-1 | docker login --username powermukisa1 --password-stdin 691423942530.dkr.ecr.us-west-1.amazonaws.com`)
+  `aws ecr get-login-password --region us-east-1 | docker login --username powermukisa1 --password-stdin 691423942530.dkr.ecr.us-east-1.amazonaws.com`
+- Tag the version
+   `docker tag test:latest YOURACCOUNT.dkr.ecr.YOURREGION-1.amazonaws.com/YOURREPO:YOURTAG`
+- Upload
+   `docker push YOURACCOUNT.dkr.ecr.YOURREGION.amazonaws.com/YOURREPO:YOURTAG`
+
+Notes:
+See current user: `aws sts get-caller-identity`
+
+## Kong Gateway
+All calls are routed via the Kong gateway running on port 8001 on local. 
+To run Kong, run the `Kong` service in docker-compose.yml. 
+To test it out, run the "Kong: Fanyacode service" request in the `requests.http` file under kong folder.
+The call to <kong-url>/status will route to the health actuator endpoint for fanya-app. Using the rate limiting
+plugin under `plugins` in `kong.yml`,  the status call will be limited to 5 calls per minute.
+
+More Kong configuration to come. Later, we shall have all calls from the FE following the pattern:
+`FE -> Kong Gateway -> AuthZ service(currently embedded in fanya-app) -> OPA -> Fanya microservices`

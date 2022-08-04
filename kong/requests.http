@@ -1,0 +1,14 @@
+# Kong admin
+GET http://localhost:8001/services
+Accept: application/json
+###
+
+## Kong: Fanyacode service
+GET http://localhost:8000/status
+Accept: application/json
+###
+
+## Kong: Gist service
+GET http://localhost:8000/gists
+Accept: application/json
+###

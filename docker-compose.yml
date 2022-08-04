@@ -1,43 +1,63 @@
 version: '3.0'
 services:
-  postgres:
-    image: postgres
-    container_name: fanyacodedb
-    ports:
-      - "5444:5432"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=fanyacode
-      - POSTGRES_HOST_AUTH_METHOD=trust
-    volumes:
-      - ./postgres/init/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
-      - ./postgres/postgres-local-data:/var/lib/postgresql/data
-
-  opa:
-    image: openpolicyagent/opa:latest
-    container_name: fanyacode_opa
-    ports:
-      - "8555:8181"
-    command:
-      - "run"
-      - "--server"
-      - "--log-level=debug"
-      - "--set=decision_logs.console=true"
-      - "/config/policy.rego"
-#      enable these when using bundles:
-#      - "--set=bundles.authz.polling.min_delay_seconds=5"
-#      - "--set=bundles.authz.polling.max_delay_seconds=10"
-#      - "--set=bundles.authz.resource=opa/bundles/authz.tar.gz"
-    volumes:
-      - ./opa/policy.rego:/config/policy.rego
-
 #  fanyacode:
 #    image: fanyacode
 #    container_name: fanyacode
 #    build: ./
 #    platform: linux/amd64
 #    ports:
-#      - "8080:8080"
+#      - "8444:8080"
 #    depends_on:
 #      - "postgres"
+
+#  postgres:
+#    image: postgres
+#    container_name: fanyacodedb
+#    ports:
+#      - "5444:5432"
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_DB=fanyacode
+#      - POSTGRES_HOST_AUTH_METHOD=trust
+#    volumes:
+#      - ./postgres/init/init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+#      - ./postgres/postgres-local-data:/var/lib/postgresql/data
+#
+#  opa:
+#    image: openpolicyagent/opa:latest
+#    container_name: fanyacode_opa
+#    ports:
+#      - "8555:8181"
+#    command:
+#      - "run"
+#      - "--server"
+#      - "--log-level=debug"
+#      - "--set=decision_logs.console=true"
+#      - "/config/policy.rego"
+##      enable these when using bundles:
+##      - "--set=bundles.authz.polling.min_delay_seconds=5"
+##      - "--set=bundles.authz.polling.max_delay_seconds=10"
+##      - "--set=bundles.authz.resource=opa/bundles/authz.tar.gz"
+#    volumes:
+#      - ./opa/policy.rego:/config/policy.rego
+
+  kong:
+    image: kong:latest
+    container_name: fanyacode_kong
+    volumes:
+      - ./kong/kong.yml:/usr/local/kong/declarative/kong.yml
+    environment:
+      - KONG_DATABASE=off
+      - KONG_DECLARATIVE_CONFIG=/usr/local/kong/declarative/kong.yml
+      - KONG_PROXY_ACCESS_LOG=/dev/stdout
+      - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+      - KONG_PROXY_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_ERROR_LOG=/dev/stderr
+      - KONG_ADMIN_LISTEN=0.0.0.0:8001
+#      - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8446 ssl #the 8446 or whatever second port I use seems to always be "in use"
+    ports:
+      - "8000:8000"
+#      - "8446:8446"
+      - "127.0.0.1:8001:8001"
+#      - "127.0.0.1:8446:8446"

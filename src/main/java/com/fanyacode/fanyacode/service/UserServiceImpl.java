@@ -2,7 +2,6 @@ package com.fanyacode.fanyacode.service;
 
 import static com.fanyacode.fanyacode.authorization.JwtUtil.generateJWTToken;
 
-import com.fanyacode.fanyacode.authorization.Role;
 import com.fanyacode.fanyacode.controller.model.response.LoginResponse;
 import com.fanyacode.fanyacode.exception.AuthException;
 import com.fanyacode.fanyacode.model.User;

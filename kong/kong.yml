@@ -1,0 +1,28 @@
+_format_version: "2.1"
+
+services:
+  - name: fanyacode-service
+    url: http://host.docker.internal:8444/actuator/health
+    routes:
+      - name: fanya-health-route
+        paths:
+          - /status
+  - name: gist-service
+    url: https://api.github.com
+    routes:
+      - name: gists-route
+        paths:
+          - /gists
+  - name: hello-service
+    url: http://host.docker.internal:8002
+    routes:
+      - name: hello-route
+        paths:
+          - /hello
+
+plugins:
+  - name: rate-limiting
+    service: fanyacode-service
+    config:
+      minute: 5
+      policy: local
