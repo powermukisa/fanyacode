@@ -7,6 +7,7 @@ import com.fanyacode.fanyacode.model.Post;
 import com.fanyacode.fanyacode.model.User;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Repository;
 public class AuthorityRepositoryImpl implements AuthorityRepository{
   private static final String SQL_CREATE = "INSERT INTO AUTHORITIES (AUTHORITY_ID, USER_ID, AUTHORITY) VALUES(NEXTVAL('AUTHORITIES_SEQ'), ?, ?)";
   private static final String SQL_FIND_BY_USER_ID = "SELECT AUTHORITY_ID, USER_ID, AUTHORITY FROM AUTHORITIES WHERE USER_ID = ?";
+//  private static final String SQL_FIND_BY_USER_ID = "SELECT * FROM AUTHORITIES WHERE USER_ID = ?";
+  private static final String SQL_FIND_ALL = "SELECT * FROM AUTHORITIES";
   private static final String SQL_UPDATE = "UPDATE AUTHORITIES SET AUTHORITY = ? WHERE USER_ID = ?";
 
   @Autowired
@@ -39,6 +42,11 @@ public class AuthorityRepositoryImpl implements AuthorityRepository{
     }catch (Exception e) {
       throw new AuthException("Failed to create authority with error: " + e.getMessage());
     }
+  }
+
+  @Override
+  public List<Authority> findAll() {
+    return jdbcTemplate.query(SQL_FIND_ALL, authorityRowMapper);
   }
 
   @Override
